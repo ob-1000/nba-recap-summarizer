@@ -1,0 +1,32 @@
+<!--create the shell for the web app-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NBA Game Recap Summarizer</title>
+</head>
+<body>
+    <h1>NBA Game Recap Summarizer</h1>
+    <textarea id="recap-input" placeholder="Enter the game recap here..."></textarea>
+    <button onclick="summarize()">Summarize</button>
+    <div id="result"></div>
+    <script>
+        async function summarize(){
+            const recap = document.getElementById("recap-input").value;
+
+            const response = await fetch("/summarize", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ recap: recap })
+            });
+            const data = await response.json();
+            document.getElementById("result").innerText = data.summary;
+
+        }
+    </script>
+</body>
+</html>
